@@ -1,0 +1,16 @@
+name: SprayPaint
+main: com.xorinc.spraypaint.SprayPaint
+version: 1.0.0
+author: drXor
+website: http://github.com/drXor
+description: >
+    Turns online images into maps
+commands:
+   sliceimage:
+      description: Slices an image
+      permission: spraypaint.slice
+      usage: /<command> [name]
+permissions:
+   spraypaint.slice:
+      description: Slices an image
+      default: op
