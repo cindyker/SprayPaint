@@ -29,9 +29,9 @@ public class SliceCommand implements CommandExecutor {
 		}
 		
 		try {
-			SlicingUtil.generateMaps(new URL(args[0]), null, plugin, sender);
-		} catch (MalformedURLException e) {
-			sender.sendMessage("Malformed URL '" + args[0] + "'");
+			SlicingUtil.generateMaps(args[0], null, plugin, sender);
+		} catch (Exception e) {
+			sender.sendMessage("Generic Exception '" + args[0] + "'");
 			e.printStackTrace();
 		}
 		
@@ -39,7 +39,7 @@ public class SliceCommand implements CommandExecutor {
 		
 	}
 	
-	public static void sendCompletionMessage(List<Short> ids, CommandSender sender, URL url){
+	public static void sendCompletionMessage(List<Short> ids, CommandSender sender, String url){
 		
 		sender.sendMessage("Mapped image at " + url + " with ids " + ids);
 		

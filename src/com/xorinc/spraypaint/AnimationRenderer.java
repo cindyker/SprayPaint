@@ -1,6 +1,7 @@
 package com.xorinc.spraypaint;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapPalette;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class AnimationRenderer extends MapRenderer {
@@ -46,8 +48,10 @@ public class AnimationRenderer extends MapRenderer {
 					BufferedImage buffer = null;
 					
 					try {
-						URL url = new URL(s);
-						buffer = ImageIO.read(url.openStream());
+						//URL url = new URL(s);
+						//buffer = ImageIO.read(url.openStream());
+                        plugin.getLogger().info("Opening File: " + plugin.getDataFolder()+"/"+s);
+                        buffer = ImageIO.read(new File( plugin.getDataFolder()+"/"+s));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -66,8 +70,16 @@ public class AnimationRenderer extends MapRenderer {
 								images[index] = ColorUtil.fromImage(resizedImage);
 								
 								finishedImages++;
+
+                                SprayPaint.redrawNeeded = true;
+
+                                for(Player pp:SprayPaint.plugin.getServer().getOnlinePlayers())
+                                {
+                                    pp.setMetadata("SprayPaint.animation",new FixedMetadataValue(plugin,true));
+                                }
 								
 							}
+
 							
 						}			
 						
@@ -105,8 +117,15 @@ public class AnimationRenderer extends MapRenderer {
 		}
 		
 		timer++;
-		
-	}
+
+        if (SprayPaint.getMetadata(player,"SprayPaint.animation") ) {
+            // do the redrawing work
+            player.removeMetadata("SprayPaint.animation",SprayPaint.plugin);
+            player.sendMap(view);
+        }
+
+
+    }
 	
 	private byte getColor(int i, int x, int z){
 		

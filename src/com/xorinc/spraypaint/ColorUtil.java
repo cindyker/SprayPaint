@@ -116,7 +116,7 @@ public class ColorUtil {
 					bytes[i][j] = fromColor(Color.fromRGB((rgb >> 16) & 0xff, (rgb >> 8) & 0xff, (rgb >> 0	) & 0xff));
 				}		
 			}
-		
+
 		return bytes;
 	}
 }

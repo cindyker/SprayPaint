@@ -4,10 +4,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class ImageRenderer extends MapRenderer {
 
 	private byte[][] colors = new byte[128][128];
+
+
 	
 	public ImageRenderer(byte[][] data){
 		
@@ -26,7 +29,14 @@ public class ImageRenderer extends MapRenderer {
 				canvas.setPixel(i, j, getColor(i, j));				
 			}
 
-	}
+       if (SprayPaint.getMetadata(player,"SprayPaint.Render") ) {
+            // do the redrawing work
+            player.removeMetadata("SprayPaint.Render",SprayPaint.plugin);
+            player.sendMap(view);
+        }
+
+
+    }
 	
 	private byte getColor(int x, int z){
 		

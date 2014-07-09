@@ -18,7 +18,7 @@ public class SliceConfig {
 
 	private static final String CONFIG_NAME = "slices.yml";
 	
-	private Map<URL, List<Short>> urls = new HashMap<URL, List<Short>>();
+	private Map<String, List<Short>> urls = new HashMap<String, List<Short>>();
 	
 	private SprayPaint plugin;
 	
@@ -74,7 +74,7 @@ public class SliceConfig {
         	
         	try {
         		
-				URL url = new URL(s);
+				String url = s;
 				List<Integer> raw = im.getIntegerList(s);
 				
 				List<Short> ids = new ArrayList<Short>();
@@ -85,7 +85,7 @@ public class SliceConfig {
 				
 				urls.put(url, ids);
 				
-			} catch (MalformedURLException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
         	
@@ -139,7 +139,7 @@ public class SliceConfig {
         	
         ConfigurationSection im = conf.getConfigurationSection("images");
         
-        for(Entry<URL, List<Short>> e : urls.entrySet()){
+        for(Entry<String, List<Short>> e : urls.entrySet()){
         	
         	List<Integer> ids = new ArrayList<Integer>();
         	
@@ -158,13 +158,13 @@ public class SliceConfig {
 	
 	}
         
-	public Map<URL, List<Short>> getImages(){
+	public Map<String, List<Short>> getImages(){
 		
 		return Collections.unmodifiableMap(urls);
 		
 	}
 	
-	public void addImage(URL url, List<Short> ids){
+	public void addImage(String url, List<Short> ids){
 		
 		urls.put(url, ids);
 	

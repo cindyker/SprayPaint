@@ -1,6 +1,7 @@
 package com.xorinc.spraypaint;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class SlicingUtil {
 
-	public static void generateMaps(final URL url, final List<Short> ids, final SprayPaint plugin, final CommandSender sender){
+	public static void generateMaps(final String file, final List<Short> ids, final SprayPaint plugin, final CommandSender sender){
 		
 		new BukkitRunnable(){
 
@@ -25,7 +26,9 @@ public class SlicingUtil {
 				BufferedImage buffer = null;
 				
 				try {
-					buffer = ImageIO.read(url.openStream());
+				//	buffer = ImageIO.read(url.openStream());
+                    plugin.getLogger().info("Opening File: " + plugin.getDataFolder()+"/"+file);
+                    buffer = ImageIO.read(new File( plugin.getDataFolder()+"/"+file));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -57,9 +60,9 @@ public class SlicingUtil {
 										
 									}
 								
-								SliceCommand.sendCompletionMessage(newIds, sender, url);
+								SliceCommand.sendCompletionMessage(newIds, sender, file);
 								
-								SprayPaint.slice.addImage(url, newIds);
+								SprayPaint.slice.addImage(file, newIds);
 							
 							}
 							
