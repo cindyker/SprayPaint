@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.map.MapView;
@@ -19,6 +20,7 @@ public class SprayPaint extends JavaPlugin implements Listener{
 	public static SliceConfig slice = null;
     public static boolean redrawNeeded = false;
     public static SprayPaint plugin;
+
 	
 	@SuppressWarnings("deprecation")
 	public void onEnable(){
@@ -44,7 +46,7 @@ public class SprayPaint extends JavaPlugin implements Listener{
 			SlicingUtil.generateMaps(e.getKey(), e.getValue(), this, null);
 			
 		}
-		
+        getServer().getPluginManager().registerEvents(this, this);
 		getCommand("sliceimage").setExecutor(new SliceCommand(this));
 		
 	}	
@@ -55,13 +57,18 @@ public class SprayPaint extends JavaPlugin implements Listener{
 		
 	}
 
-
+    @EventHandler
     public void onLogin(PlayerJoinEvent ev)
     {
 
         Player pp = ev.getPlayer();
         if(pp != null)
-         pp.setMetadata("SprayPaint.Render", new FixedMetadataValue(this, true));
+        {
+            FastSend sendTask;
+             pp.setMetadata("SprayPaint.Render", new FixedMetadataValue(this, true));
+            sendTask = new FastSend(this, 10, pp); //Right now 10 does nothing... may add back later.
+            sendTask.runTaskLater(this, 2);
+        }
     }
 
 
