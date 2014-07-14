@@ -29,19 +29,20 @@ public class SprayPaint extends JavaPlugin implements Listener{
 		slice = new SliceConfig(this);
 
         plugin = this;
-		
-		for(short s : conf.getIds()){
-			
-			MapView map = getServer().getMap(s);
-			
-			if(map == null){
-				continue;
-			}
-			
-			map.addRenderer(conf.getAnimator(s));
-		}
-		
-		for(Entry<String, List<Short>> e : slice.getImages().entrySet()){
+
+        for (short s : conf.getIds()) {
+
+            MapView map = getServer().getMap(s);
+
+            if (map==null) {
+
+                continue;
+            }
+
+            map.addRenderer(conf.getAnimator(s));
+        }
+
+        for(Entry<String, List<Short>> e : slice.getImages().entrySet()){
 			
 			SlicingUtil.generateMaps(e.getKey(), e.getValue(), this, null);
 			
