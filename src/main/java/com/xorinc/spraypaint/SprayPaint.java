@@ -3,6 +3,7 @@ package com.xorinc.spraypaint;
 import java.net.URL;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +21,7 @@ public class SprayPaint extends JavaPlugin implements Listener{
 	public static SliceConfig slice = null;
     public static boolean redrawNeeded = false;
     public static SprayPaint plugin;
-
+    public static Random rr;
 	
 	@SuppressWarnings("deprecation")
 	public void onEnable(){
@@ -29,6 +30,8 @@ public class SprayPaint extends JavaPlugin implements Listener{
 		slice = new SliceConfig(this);
 
         plugin = this;
+
+        rr = new Random();
 
         for (short s : conf.getIds()) {
 
@@ -68,7 +71,9 @@ public class SprayPaint extends JavaPlugin implements Listener{
             FastSend sendTask;
              pp.setMetadata("SprayPaint.Render", new FixedMetadataValue(this, true));
             sendTask = new FastSend(this, 10, pp); //Right now 10 does nothing... may add back later.
-            sendTask.runTaskLater(this, 2);
+
+
+            sendTask.runTaskLater(this,rr.nextInt(100)+1);
         }
     }
 
