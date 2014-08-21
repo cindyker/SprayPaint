@@ -106,6 +106,7 @@ public class SlicingUtil {
 		int heightParts = height / 128 + (height % 128 == 0 ? 0 : 1);
 		
 		BufferedImage[][] buffer = new BufferedImage[widthParts][heightParts];
+        SprayPaint.plugin.getLogger().info("Loading Image width: " + widthParts +" height: " + heightParts);
 		
 		for(int i = 0; i < widthParts; i++)
 			for(int j = 0; j < heightParts; j++){
@@ -116,7 +117,7 @@ public class SlicingUtil {
 				int w = width % 128 != 0 && i == widthParts - 1 ? width % 128 : 128;
 				int h = height % 128 != 0 && j == heightParts - 1 ? height % 128 : 128; 
 				
-				System.out.println("w = " + w + " h = " + h);
+				//System.out.println("w = " + w + " h = " + h);
 				
 				buffer[i][j] = im.getSubimage(x, y, w, h);
 				

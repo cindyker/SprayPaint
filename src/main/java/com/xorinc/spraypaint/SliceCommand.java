@@ -23,7 +23,7 @@ public class SliceCommand implements CommandExecutor {
 		
 		if(args.length == 0){
 			
-			sender.sendMessage("Please enter a URL.");
+			sender.sendMessage("Please enter path to image.");
 			return true;
 			
 		}

@@ -22,34 +22,22 @@ public class SprayPaint extends JavaPlugin implements Listener{
     public static boolean redrawNeeded = false;
     public static SprayPaint plugin;
     public static Random rr;
+    public static boolean ImagesLoaded = false;
 	
 	@SuppressWarnings("deprecation")
 	public void onEnable(){
 		
-		conf = new AnimationConfig(this);
-		slice = new SliceConfig(this);
+
 
         plugin = this;
 
+        ImageLoad LoadTask;
+        LoadTask = new ImageLoad(this); //Right now 10 does nothing... may add back later.
+        LoadTask.runTaskAsynchronously(this);
+
         rr = new Random();
 
-        for (short s : conf.getIds()) {
 
-            MapView map = getServer().getMap(s);
-
-            if (map==null) {
-
-                continue;
-            }
-
-            map.addRenderer(conf.getAnimator(s));
-        }
-
-        for(Entry<String, List<Short>> e : slice.getImages().entrySet()){
-			
-			SlicingUtil.generateMaps(e.getKey(), e.getValue(), this, null);
-			
-		}
         getServer().getPluginManager().registerEvents(this, this);
 		getCommand("sliceimage").setExecutor(new SliceCommand(this));
 		
@@ -66,14 +54,19 @@ public class SprayPaint extends JavaPlugin implements Listener{
     {
 
         Player pp = ev.getPlayer();
-        if(pp != null)
+        if(pp != null && ImagesLoaded)
         {
             FastSend sendTask;
              pp.setMetadata("SprayPaint.Render", new FixedMetadataValue(this, true));
             sendTask = new FastSend(this, 10, pp); //Right now 10 does nothing... may add back later.
 
 
-            sendTask.runTaskLater(this,rr.nextInt(100)+1);
+            sendTask.runTaskLater(this,rr.nextInt(250)+1);
+        }
+        else
+        {
+            if(!ImagesLoaded)
+                this.getLogger().info("[SprayPaint] Player did not get images sent, they were still loading. ");
         }
     }
 
